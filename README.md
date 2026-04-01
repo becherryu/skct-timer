@@ -1,5 +1,19 @@
-# Vue 3 + Vite
+# SKCT Timer
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+SKCT 풀이 흐름에 맞춰 바로 사용할 수 있는 웹 타이머입니다.  
+기본 SKCT 모드와 사용자 지정 루틴 모드를 함께 지원하고, 전체화면과 알람 프리셋까지 한 화면에서 조절할 수 있게 만들었습니다.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## 주요 기능
+
+- SKCT 기본 시간 설정
+- 사용자 지정 탭 추가 및 루틴 편집
+- 전체화면 모드
+- 알람음 6종 선택 및 미리듣기
+- 라이트/다크 모드
+- 브라우저 로컬 저장
+
+## 기술 스택
+
+- Vue 3
+- Vite
+- Howler.js

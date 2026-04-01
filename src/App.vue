@@ -43,9 +43,12 @@
                         <AppTopBar
                             :is-dark="isDark"
                             :is-fullscreen="isFullscreen"
+                            :is-muted="isMuted"
+                            :show-fullscreen="showFullscreenButton"
                             @open-config="openConfigModal"
                             @toggle-dark="toggleDark"
                             @toggle-fullscreen="toggleFullscreen"
+                            @toggle-muted="toggleMuted"
                         />
                     </template>
                 </TimerBoard>
@@ -83,9 +86,12 @@ import { DEFAULT_SUBJECTS, useTimer } from './useTimer.js';
 
 const timer = useTimer();
 const presets = useTimerPresets();
+const MUTED_STORAGE_KEY = 'skct-timer-muted';
 
 const isDark = ref(false);
 const isFullscreen = ref(false);
+const isMuted = ref(false);
+const isCompactScreen = ref(false);
 const showConfigModal = ref(false);
 
 const defaultTimeStr = computed(() => {
@@ -143,12 +149,19 @@ function handleSoundPresetUpdate(nextPreset) {
     previewSound('bell');
 }
 
+function toggleMuted() {
+    isMuted.value = !isMuted.value;
+    setMuted(isMuted.value);
+    window.localStorage.setItem(MUTED_STORAGE_KEY, String(isMuted.value));
+}
+
 function toggleDark() {
     isDark.value = !isDark.value;
     document.documentElement.classList.toggle('dark', isDark.value);
 }
 
 function toggleFullscreen() {
+    if (isCompactScreen.value && !document.fullscreenElement) return;
     if (!document.fullscreenElement) document.documentElement.requestFullscreen();
     else document.exitFullscreen();
 }
@@ -157,14 +170,25 @@ function onFullscreenChange() {
     isFullscreen.value = !!document.fullscreenElement;
 }
 
+function updateCompactScreen() {
+    isCompactScreen.value = window.innerWidth <= 720;
+}
+
 onMounted(() => {
+    updateCompactScreen();
+    isMuted.value = window.localStorage.getItem(MUTED_STORAGE_KEY) === 'true';
+    setMuted(isMuted.value);
+    window.addEventListener('resize', updateCompactScreen);
     document.addEventListener('fullscreenchange', onFullscreenChange);
     applyTimerSettings(presets.buildActiveTimerSettings());
 });
 
 onUnmounted(() => {
+    window.removeEventListener('resize', updateCompactScreen);
     document.removeEventListener('fullscreenchange', onFullscreenChange);
 });
+
+const showFullscreenButton = computed(() => !isCompactScreen.value || isFullscreen.value);
 
 const {
     currentPhase,
@@ -186,6 +210,7 @@ const {
     studyTotal,
     timeStr,
     reset,
+    setMuted,
 } = timer;
 
 const { activeTabId, activeTabLabel, customTabs, editor, soundPreset, addCustomPhase, removeCustomPhase } = presets;

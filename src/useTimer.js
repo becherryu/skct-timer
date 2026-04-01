@@ -5,7 +5,7 @@ import { useSound } from './useSound.js'
 export const DEFAULT_SUBJECTS = ['언어이해', '자료해석', '창의수리', '언어추리', '수열추리']
 
 export function useTimer() {
-  const { playBell, playBreakEnd, previewSound: playPreview, setSoundPreset } = useSound()
+  const { playBell, playBreakEnd, previewSound: playPreview, setMuted, setSoundPreset } = useSound()
 
   const mode = ref('skct') // 'skct' | 'custom'
 
@@ -180,5 +180,6 @@ export function useTimer() {
     sequence, running, started, finished,
     currentPhase, isBreak, isWarning, progressPct, timeStr, nextSubjectName,
     start, skip, reset, applySettings, previewSound, stepStatus,
+    setMuted,
   }
 }

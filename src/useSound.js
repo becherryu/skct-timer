@@ -11,6 +11,7 @@ export function useSound() {
     const instances = new Map();
     const stopTimers = new Map();
     let soundPreset = DEFAULT_SOUND_PRESET;
+    let muted = false;
 
     function resolvePreset(presetId) {
         return soundMap.get(presetId) ?? soundMap.get(DEFAULT_SOUND_PRESET);
@@ -33,6 +34,7 @@ export function useSound() {
     }
 
     function playWithPreset(presetId, kind = 'bell') {
+        if (muted) return;
         const preset = resolvePreset(presetId);
         const sound = getInstance(preset.id);
         const existingTimer = stopTimers.get(preset.id);
@@ -60,6 +62,17 @@ export function useSound() {
         soundPreset = soundMap.has(nextPreset) ? nextPreset : DEFAULT_SOUND_PRESET;
     }
 
+    function stopAll() {
+        stopTimers.forEach((timerId) => clearTimeout(timerId));
+        stopTimers.clear();
+        instances.forEach((sound) => sound.stop());
+    }
+
+    function setMuted(nextMuted) {
+        muted = Boolean(nextMuted);
+        if (muted) stopAll();
+    }
+
     function playBell() {
         playWithPreset(soundPreset, 'bell');
     }
@@ -72,5 +85,5 @@ export function useSound() {
         playWithPreset(nextPreset, 'bell');
     }
 
-    return { playBell, playBreakEnd, previewSound, setSoundPreset };
+    return { playBell, playBreakEnd, previewSound, setMuted, setSoundPreset };
 }

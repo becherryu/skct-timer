@@ -2,7 +2,7 @@
     <Teleport to="body">
         <Transition name="fade">
             <div v-if="show" class="modal-overlay" @click.self="$emit('close')">
-                <div ref="modalShell" class="modal-shell">
+                <div class="modal-shell">
                     <div class="modal-header">
                         <div>
                             <p class="modal-title">{{ activeTabLabel }} 설정</p>
@@ -20,19 +20,25 @@
                         </button>
                     </div>
 
-                    <PresetEditor
-                        :active-tab-id="activeTabId"
-                        :default-subjects="defaultSubjects"
-                        :editor="editor"
-                        :selected-sound-preset="selectedSoundPreset"
-                        :sound-options="soundOptions"
-                        @add-phase="$emit('add-phase', $event)"
-                        @remove-phase="$emit('remove-phase', $event)"
-                        @save="$emit('save')"
-                        @update-field="$emit('update-field', $event)"
-                        @update-phase="$emit('update-phase', $event)"
-                        @update-sound="$emit('update-sound', $event)"
-                    />
+                    <div ref="modalBody" class="modal-body">
+                        <PresetEditor
+                            :active-tab-id="activeTabId"
+                            :default-subjects="defaultSubjects"
+                            :editor="editor"
+                            :selected-sound-preset="selectedSoundPreset"
+                            :sound-options="soundOptions"
+                            @add-phase="$emit('add-phase', $event)"
+                            @remove-phase="$emit('remove-phase', $event)"
+                            @update-field="$emit('update-field', $event)"
+                            @update-phase="$emit('update-phase', $event)"
+                            @update-sound="$emit('update-sound', $event)"
+                        />
+                    </div>
+
+                    <div class="modal-footer">
+                        <span class="config-hint">브라우저에 자동 저장됩니다.</span>
+                        <button class="btn-apply" @click="$emit('save')">저장</button>
+                    </div>
                 </div>
             </div>
         </Transition>
@@ -43,7 +49,7 @@
 import { nextTick, onUnmounted, ref, watch } from 'vue';
 import PresetEditor from './PresetEditor.vue';
 
-const modalShell = ref(null);
+const modalBody = ref(null);
 
 const props = defineProps({
     activeTabId: {
@@ -84,7 +90,7 @@ watch(
         document.body.style.overflow = isOpen ? 'hidden' : '';
         if (!isOpen) return;
         await nextTick();
-        modalShell.value?.scrollTo({ top: 0, behavior: 'auto' });
+        modalBody.value?.scrollTo({ top: 0, behavior: 'auto' });
     },
 );
 

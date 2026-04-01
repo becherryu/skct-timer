@@ -183,10 +183,6 @@
             </div>
         </template>
 
-        <div class="config-actions">
-            <span class="config-hint">브라우저에 자동 저장됩니다.</span>
-            <button class="btn-apply" @click="$emit('save')">저장</button>
-        </div>
     </div>
 </template>
 
@@ -214,7 +210,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['add-phase', 'remove-phase', 'save', 'update-field', 'update-phase', 'update-sound']);
+const emit = defineEmits(['add-phase', 'remove-phase', 'update-field', 'update-phase', 'update-sound']);
 
 function updateNumber(field, event) {
     emit('update-field', { field, value: Number(event.target.value) });

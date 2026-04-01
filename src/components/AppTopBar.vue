@@ -12,7 +12,38 @@
                     <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2" />
                 </svg>
             </button>
+            <button class="btn-icon" @click="$emit('toggle-muted')" :title="isMuted ? '소리 켜기' : '소리 끄기'">
+                <svg v-if="!isMuted" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path
+                        d="M2 6.5h2.4L7.8 4v8L4.4 9.5H2v-3z"
+                        stroke="currentColor"
+                        stroke-width="1.2"
+                        stroke-linejoin="round"
+                    />
+                    <path
+                        d="M10.4 5.2a3.8 3.8 0 0 1 0 5.6M12.2 3.6a6.2 6.2 0 0 1 0 8.8"
+                        stroke="currentColor"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                    />
+                </svg>
+                <svg v-else width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path
+                        d="M2 6.5h2.4L7.8 4v8L4.4 9.5H2v-3z"
+                        stroke="currentColor"
+                        stroke-width="1.2"
+                        stroke-linejoin="round"
+                    />
+                    <path
+                        d="M10.5 6l3 4M13.5 6l-3 4"
+                        stroke="currentColor"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                    />
+                </svg>
+            </button>
             <button
+                v-if="showFullscreen"
                 class="btn-icon"
                 @click="$emit('toggle-fullscreen')"
                 :title="isFullscreen ? '전체화면 종료' : '전체화면'"
@@ -69,7 +100,15 @@ defineProps({
         type: Boolean,
         required: true,
     },
+    isMuted: {
+        type: Boolean,
+        required: true,
+    },
+    showFullscreen: {
+        type: Boolean,
+        required: true,
+    },
 });
 
-defineEmits(['open-config', 'toggle-dark', 'toggle-fullscreen']);
+defineEmits(['open-config', 'toggle-dark', 'toggle-fullscreen', 'toggle-muted']);
 </script>

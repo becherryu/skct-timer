@@ -1,0 +1,349 @@
+.timer-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.card.is-fullscreen .timer-panel {
+    flex: 1;
+    justify-content: flex-start;
+    width: min(1440px, 100%);
+    margin: 0 auto;
+    padding-top: 0.25rem;
+}
+
+.timer-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.card.is-fullscreen .timer-top-row {
+    margin-bottom: 1.75rem;
+}
+
+.timer-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.card.is-fullscreen .timer-main {
+    flex: 1;
+    justify-content: center;
+    padding-block: 1.25rem 0.5rem;
+}
+
+.phase-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-bottom: 0;
+}
+
+.phase-label {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    background: var(--surface2);
+    border: 1px solid var(--border-em);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.card.is-fullscreen .phase-label {
+    font-size: 18px;
+    padding: 6px 14px;
+}
+
+.phase-label.is-break {
+    color: var(--hint);
+}
+
+.next-label {
+    font-size: 15px;
+    color: var(--hint);
+    font-weight: 500;
+}
+
+.card.is-fullscreen .next-label {
+    font-size: 18px;
+}
+
+.subject-name {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 1.8rem;
+    min-height: 40px;
+    text-align: center;
+    transition: color 0.3s;
+}
+
+.card.is-fullscreen .subject-name {
+    font-size: clamp(32px, 3.2vw, 54px);
+    margin-bottom: 2.4rem;
+    min-height: 1.2em;
+}
+
+.subject-name.is-break {
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.timer {
+    font-family: var(--mono);
+    font-size: 132px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -4px;
+    color: var(--text);
+    margin-bottom: 2rem;
+    text-align: center;
+    transition: color 0.3s;
+}
+
+.card.is-fullscreen .timer {
+    font-size: clamp(180px, 20vw, 320px);
+    margin-bottom: 2.9rem;
+    letter-spacing: -0.06em;
+}
+
+.timer.is-break {
+    color: var(--muted);
+}
+
+.timer.idle {
+    color: var(--hint);
+}
+
+.timer.warning {
+    color: var(--warning);
+}
+
+.progress-wrap {
+    width: 100%;
+    height: 3px;
+    background: var(--border-em);
+    border-radius: 1px;
+    margin-bottom: 1.75rem;
+    overflow: hidden;
+}
+
+.card.is-fullscreen .progress-wrap {
+    margin-bottom: 2.4rem;
+    height: 4px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--text);
+    border-radius: 1px;
+    transition:
+        width 1s linear,
+        background 0.3s;
+}
+
+.progress-fill.is-break {
+    background: var(--done);
+}
+
+.progress-fill.warning {
+    background: var(--warning);
+}
+
+.steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.steps.custom-steps {
+    justify-content: center;
+    gap: clamp(28px, 6vw, 88px);
+}
+
+.card.is-fullscreen .steps {
+    margin-bottom: 3rem;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.step.break {
+    flex: 0 0 12px;
+    padding-top: 2px;
+}
+
+.step.break.show-label {
+    flex: 0 0 auto;
+    min-width: 52px;
+    padding-top: 0;
+}
+
+.step.subject {
+    flex: 1;
+    min-width: 48px;
+}
+
+.steps.custom-steps .step.subject,
+.steps.custom-steps .step.break {
+    flex: 0 0 auto;
+    min-width: 72px;
+}
+
+.steps.custom-steps .step.break.show-label {
+    min-width: 72px;
+}
+
+.dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid var(--border-em);
+    background: transparent;
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+}
+
+.step.break .dot {
+    width: 13px;
+    height: 13px;
+    border-style: dashed;
+}
+
+.step.break.show-label .dot {
+    width: 13px;
+    height: 13px;
+    border-style: dashed;
+}
+
+.step.done .dot {
+    background: var(--done);
+    border-color: var(--done);
+}
+
+.step.active .dot {
+    background: var(--text);
+    border-color: var(--text);
+    box-shadow: 0 0 0 3px var(--dot-glow);
+}
+
+.step-label {
+    font-size: 17px;
+    color: var(--hint);
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    transition: color 0.2s;
+    visibility: hidden;
+}
+
+.step.show-label .step-label {
+    visibility: visible;
+}
+
+.step.active .step-label {
+    color: var(--muted);
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.card.is-fullscreen .controls {
+    gap: 16px;
+}
+
+.btn-main {
+    padding: 14px 34px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: var(--sans);
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: opacity 0.15s;
+    min-width: 96px;
+}
+
+.card.is-fullscreen .btn-main {
+    min-width: 120px;
+    padding: 16px 38px;
+    font-size: 18px;
+}
+
+.btn-sub {
+    padding: 14px 20px;
+    font-size: 15px;
+    font-family: var(--sans);
+    font-weight: 600;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border-em);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition:
+        color 0.15s,
+        background 0.15s;
+}
+
+.card.is-fullscreen .btn-sub {
+    padding: 16px 24px;
+    font-size: 17px;
+}
+
+.btn-main:hover,
+.btn-sub:hover {
+    opacity: 0.85;
+}
+
+.btn-sub:hover {
+    color: var(--text);
+    background: var(--surface2);
+}
+
+@media (max-width: 720px) {
+    .timer-top-row,
+    .phase-meta {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .card.is-fullscreen .timer-main {
+        justify-content: flex-start;
+        padding-block: 0.5rem 0;
+    }
+
+    .steps.custom-steps {
+        gap: 20px;
+    }
+
+    .timer {
+        font-size: 92px;
+        letter-spacing: -3px;
+    }
+
+    .card.is-fullscreen .timer {
+        font-size: clamp(88px, 22vw, 150px);
+    }
+
+    .controls {
+        flex-wrap: wrap;
+    }
+}

@@ -1,0 +1,371 @@
+.config-panel {
+    border: 1px solid var(--border-em);
+    border-radius: 16px;
+    padding: 1.1rem;
+    background: color-mix(in srgb, var(--surface) 72%, var(--surface2) 28%);
+}
+
+.config-intro {
+    margin-bottom: 1rem;
+}
+
+.config-intro-title {
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.config-intro-copy,
+.config-help {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.config-help {
+    margin-bottom: 10px;
+}
+
+.config-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.setting-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem;
+    background: var(--surface);
+}
+
+.settings-section {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.settings-divider {
+    height: 1px;
+    background: var(--border-em);
+    margin: 12px 0;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.setting-row:last-child {
+    margin-bottom: 0;
+}
+
+.setting-row label {
+    font-size: 15px;
+    color: var(--muted);
+    flex-shrink: 0;
+    font-weight: 500;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.input-group input,
+.time-input {
+    width: 56px;
+    padding: 9px 10px;
+    font-size: 15px;
+    font-family: var(--mono);
+    background: var(--bg);
+    border: 1px solid var(--border-em);
+    border-radius: 8px;
+    color: var(--text);
+    text-align: center;
+    outline: none;
+}
+
+.input-group input:focus,
+.time-input:focus,
+.subject-input:focus {
+    border-color: var(--focus-border);
+}
+
+.unit {
+    font-size: 14px;
+    color: var(--hint);
+    font-weight: 500;
+}
+
+.wide-input {
+    max-width: 220px;
+}
+
+.skct-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skct-chip {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+    background: var(--surface2);
+    border: 1px solid var(--border-em);
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.subjects-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.add-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.btn-add {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 600;
+    background: none;
+    border: 1px solid var(--border-em);
+    border-radius: 8px;
+    padding: 7px 11px;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition:
+        color 0.15s,
+        background 0.15s;
+}
+
+.btn-add:hover {
+    color: var(--text);
+    background: var(--bg);
+}
+
+.subjects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.custom-phase-row {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) 40px;
+    align-items: center;
+    gap: 10px;
+}
+
+.phase-type-badge {
+    font-size: 13px;
+    font-family: var(--sans);
+    padding: 5px 8px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    font-weight: 500;
+    background: var(--surface2);
+    border: 1px solid var(--border-em);
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.custom-phase-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.phase-time-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.phase-type-badge.study {
+    color: var(--text);
+}
+
+.phase-type-badge.break {
+    color: var(--muted);
+}
+
+.subject-input {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 12px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: var(--sans);
+    background: var(--bg);
+    border: 1px solid var(--border-em);
+    border-radius: 8px;
+    color: var(--text);
+    outline: none;
+}
+
+.btn-remove {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--hint);
+    background: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-radius: 8px;
+    transition:
+        color 0.15s,
+        background 0.15s,
+        border-color 0.15s;
+    justify-self: end;
+}
+
+.btn-remove:hover:not(:disabled) {
+    color: var(--warning);
+    background: var(--bg);
+    border-color: var(--border-em);
+}
+
+.btn-remove:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.config-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    position: sticky;
+    bottom: 0;
+    padding-top: 12px;
+}
+
+.config-hint {
+    font-size: 15px;
+    color: var(--hint);
+    font-weight: 500;
+}
+
+.btn-apply {
+    padding: 13px 20px;
+    font-size: 16px;
+    font-family: var(--sans);
+    font-weight: 600;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    min-width: 96px;
+    transition:
+        opacity 0.15s,
+        transform 0.15s;
+}
+
+.btn-apply:hover {
+    opacity: 0.9;
+}
+
+.btn-apply:active {
+    transform: translateY(1px);
+}
+
+.sound-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.sound-option {
+    text-align: left;
+    border: 1px solid var(--border-em);
+    background: var(--surface2);
+    color: var(--muted);
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition:
+        border-color 0.15s,
+        background 0.15s,
+        color 0.15s;
+}
+
+.sound-option strong,
+.sound-option span {
+    display: block;
+    color: inherit;
+}
+
+.sound-option strong {
+    font-size: 15px;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.sound-option span {
+    font-size: 14px;
+    line-height: 1.45;
+    font-weight: 500;
+}
+
+.sound-option.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+}
+
+@media (max-width: 720px) {
+    .config-grid,
+    .sound-options {
+        grid-template-columns: 1fr;
+    }
+
+    .config-actions,
+    .setting-row,
+    .subjects-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .wide-input {
+        max-width: none;
+    }
+
+    .custom-phase-row {
+        grid-template-columns: 1fr;
+    }
+
+    .custom-phase-main {
+        grid-template-columns: 1fr;
+    }
+
+    .phase-type-badge,
+    .btn-remove {
+        justify-self: start;
+    }
+}

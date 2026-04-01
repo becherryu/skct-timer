@@ -1,0 +1,230 @@
+.page {
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px), var(--bg);
+    background-size:
+        48px 48px,
+        48px 48px,
+        auto;
+}
+
+.page.is-fullscreen {
+    padding: 0;
+    background:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+        color-mix(in srgb, var(--bg) 82%, var(--surface) 18%);
+    background-size:
+        72px 72px,
+        72px 72px,
+        auto;
+}
+
+.card {
+    width: 100%;
+    max-width: 980px;
+    background: var(--surface);
+    border: 1px solid var(--border-em);
+    border-radius: var(--radius-lg);
+    padding: 2.4rem;
+    box-shadow: var(--shadow-card);
+}
+
+.card.is-fullscreen {
+    width: 100vw;
+    max-width: none;
+    min-height: 100dvh;
+    padding: clamp(5.25rem, 4vw, 3.25rem) clamp(1.75rem, 4vw, 4rem) clamp(2.5rem, 4vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--surface) 96%, transparent) 0%,
+        color-mix(in srgb, var(--surface) 99%, var(--surface2) 1%) 100%
+    );
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 0;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition:
+        color 0.15s,
+        background 0.15s;
+}
+
+.btn-icon:hover {
+    color: var(--text);
+    background: var(--surface2);
+}
+
+.btn-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.tab-section {
+    margin-bottom: 1rem;
+}
+
+.page.is-fullscreen .tab-section {
+    margin-bottom: 1.1rem;
+}
+
+.tab-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.page.is-fullscreen .tab-scroll {
+    padding-bottom: 30px;
+}
+
+.tab-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.tab-scroll::-webkit-scrollbar-thumb {
+    background: var(--border-em);
+    border-radius: 999px;
+}
+
+.main-tab {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-em);
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 16px;
+    font-family: var(--sans);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        color 0.15s,
+        border-color 0.15s;
+}
+
+.main-tab.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+}
+
+.main-tab.add {
+    min-width: 44px;
+    padding-inline: 0;
+    justify-content: center;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.page.is-fullscreen .main-tab {
+    padding: 11px 16px;
+    font-size: 14px;
+}
+
+.page.is-fullscreen .main-tab.add {
+    min-width: 48px;
+    font-size: 26px;
+}
+
+.main-tab.with-remove {
+    padding: 6px 8px 6px 14px;
+}
+
+.main-tab-trigger {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.main-tab-label {
+    white-space: nowrap;
+}
+
+.main-tab-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    border: none;
+    background: color-mix(in srgb, currentColor 18%, transparent);
+    color: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.page.is-fullscreen .top-bar {
+    margin-bottom: 0;
+}
+
+.finished {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0;
+    gap: 10px;
+}
+
+.finished-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.finished-sub {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 720px) {
+    .card,
+    .card.is-fullscreen {
+        padding: 1.5rem 1.25rem 2rem;
+        min-height: auto;
+    }
+}

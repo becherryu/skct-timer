@@ -11,7 +11,7 @@ export function useTimer() {
 
   // SKCT settings
   const skctMin = ref(15)
-  const skctSec = ref(10)
+  const skctSec = ref(0)
   const skctBreakMin = ref(1)
   const skctBreakSec = ref(0)
 

@@ -1,6 +1,13 @@
 import { DEFAULT_SOUND_PRESET, SOUND_OPTIONS } from '../soundPresets.js';
 
 const STORAGE_KEY = 'skct-timer-state-v1';
+const LEGACY_SKCT_DEFAULT = {
+    min: 15,
+    sec: 10,
+    breakMin: 1,
+    breakSec: 0,
+    repeatCount: 1,
+};
 
 export function clampNumber(value, min, max, fallback) {
     const parsed = Number(value);
@@ -18,7 +25,7 @@ export function createDefaultPhases() {
 export function createDefaultSkctConfig() {
     return {
         min: 15,
-        sec: 10,
+        sec: 0,
         breakMin: 1,
         breakSec: 0,
         repeatCount: 1,
@@ -60,11 +67,21 @@ export function normalizePhases(phases) {
 export function normalizeSkctConfig(config) {
     return {
         min: clampNumber(config?.min, 0, 60, 15),
-        sec: clampNumber(config?.sec, 0, 59, 10),
+        sec: clampNumber(config?.sec, 0, 59, 0),
         breakMin: clampNumber(config?.breakMin, 0, 60, 1),
         breakSec: clampNumber(config?.breakSec, 0, 59, 0),
         repeatCount: clampNumber(config?.repeatCount, 1, 10, 1),
     };
+}
+
+function isLegacyDefaultSkctConfig(config) {
+    return (
+        config?.min === LEGACY_SKCT_DEFAULT.min &&
+        config?.sec === LEGACY_SKCT_DEFAULT.sec &&
+        config?.breakMin === LEGACY_SKCT_DEFAULT.breakMin &&
+        config?.breakSec === LEGACY_SKCT_DEFAULT.breakSec &&
+        config?.repeatCount === LEGACY_SKCT_DEFAULT.repeatCount
+    );
 }
 
 export function normalizeCustomTab(tab, index) {
@@ -132,8 +149,12 @@ export function loadPersistedState() {
             ? parsed.customTabs.map((tab, index) => normalizeCustomTab(tab, index))
             : [];
 
+        const normalizedSkctConfig = normalizeSkctConfig(parsed?.skctConfig);
+
         return {
-            skctConfig: normalizeSkctConfig(parsed?.skctConfig),
+            skctConfig: isLegacyDefaultSkctConfig(normalizedSkctConfig)
+                ? createDefaultSkctConfig()
+                : normalizedSkctConfig,
             customTabs,
             activeTabId: resolveActiveTabId(parsed?.activeTabId, customTabs),
             soundPreset: SOUND_OPTIONS.some((option) => option.id === parsed?.soundPreset)

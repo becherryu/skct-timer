@@ -112,6 +112,26 @@
     letter-spacing: -0.06em;
 }
 
+.timer.is-countdown {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--text);
+}
+
+.countdown-value {
+    line-height: 1;
+    color: var(--warning);
+}
+
+.countdown-unit {
+    font-size: 0.24em;
+    letter-spacing: 0;
+    color: var(--muted);
+    font-weight: 700;
+}
+
 .timer.is-break {
     color: var(--muted);
 }
@@ -163,6 +183,13 @@
     flex-wrap: wrap;
 }
 
+.steps.skct-steps {
+    display: grid;
+    grid-template-columns: repeat(var(--step-count), minmax(0, 1fr));
+    gap: 0;
+    align-items: baseline;
+}
+
 .steps.custom-steps {
     justify-content: center;
     gap: clamp(28px, 6vw, 88px);
@@ -177,11 +204,25 @@
     flex-direction: column;
     align-items: center;
     gap: 5px;
+    justify-content: flex-start;
+}
+
+.steps.skct-steps .step {
+    min-width: 0;
+}
+
+.step.countdown {
+    gap: 3px;
 }
 
 .step.break {
     flex: 0 0 12px;
     padding-top: 2px;
+}
+
+.step.countdown {
+    flex: 0 0 auto;
+    min-width: 52px;
 }
 
 .step.break.show-label {
@@ -195,8 +236,15 @@
     min-width: 48px;
 }
 
+.steps.skct-steps .step.subject,
+.steps.skct-steps .step.break,
+.steps.skct-steps .step.countdown {
+    flex: 0 0 auto;
+}
+
 .steps.custom-steps .step.subject,
-.steps.custom-steps .step.break {
+.steps.custom-steps .step.break,
+.steps.custom-steps .step.countdown {
     flex: 0 0 auto;
     min-width: 72px;
 }
@@ -209,7 +257,7 @@
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    border: 1px solid var(--border-em);
+    border: 1.5px solid var(--border-em);
     background: transparent;
     transition:
         background 0.2s,
@@ -228,12 +276,48 @@
     border-style: dashed;
 }
 
-.step.done .dot {
+.countdown-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hint);
+    width: 17px;
+    height: 17px;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    margin-bottom: 2px;
+}
+
+.countdown-play {
+    width: 17px;
+    height: 17px;
+}
+
+.countdown-play-path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+}
+
+.step.done .dot:not(.countdown-dot) {
     background: var(--done);
     border-color: var(--done);
 }
 
-.step.active .dot {
+.step.done .countdown-dot,
+.step.active .countdown-dot {
+    color: var(--text);
+}
+
+.step.done .countdown-play-path,
+.step.active .countdown-play-path {
+    fill: currentColor;
+    stroke: currentColor;
+}
+
+.step.active .dot:not(.countdown-dot) {
     background: var(--text);
     border-color: var(--text);
     box-shadow: 0 0 0 3px var(--dot-glow);

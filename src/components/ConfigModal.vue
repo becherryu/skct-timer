@@ -24,15 +24,18 @@
                         <PresetEditor
                             :active-tab-id="activeTabId"
                             :default-subjects="defaultSubjects"
-                            :editor="editor"
-                            :selected-sound-preset="selectedSoundPreset"
-                            :sound-options="soundOptions"
-                            @add-phase="$emit('add-phase', $event)"
-                            @remove-phase="$emit('remove-phase', $event)"
-                            @update-field="$emit('update-field', $event)"
-                            @update-phase="$emit('update-phase', $event)"
-                            @update-sound="$emit('update-sound', $event)"
-                        />
+                        :editor="editor"
+                        :selected-sound-preset="selectedSoundPreset"
+                        :sound-options="soundOptions"
+                        :start-delay-enabled="startDelayEnabled"
+                        :start-delay-seconds="startDelaySeconds"
+                        @add-phase="$emit('add-phase', $event)"
+                        @remove-phase="$emit('remove-phase', $event)"
+                        @update-field="$emit('update-field', $event)"
+                        @update-phase="$emit('update-phase', $event)"
+                        @update-sound="$emit('update-sound', $event)"
+                        @update-start-delay="$emit('update-start-delay', $event)"
+                    />
                     </div>
 
                     <div class="modal-footer">
@@ -80,9 +83,17 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    startDelayEnabled: {
+        type: Boolean,
+        required: true,
+    },
+    startDelaySeconds: {
+        type: Number,
+        required: true,
+    },
 });
 
-defineEmits(['add-phase', 'close', 'remove-phase', 'save', 'update-field', 'update-phase', 'update-sound']);
+defineEmits(['add-phase', 'close', 'remove-phase', 'save', 'update-field', 'update-phase', 'update-sound', 'update-start-delay']);
 
 watch(
     () => props.show,

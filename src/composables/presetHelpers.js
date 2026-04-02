@@ -8,6 +8,7 @@ const LEGACY_SKCT_DEFAULT = {
     breakSec: 0,
     repeatCount: 1,
 };
+const DEFAULT_START_DELAY_SECONDS = 10;
 
 export function clampNumber(value, min, max, fallback) {
     const parsed = Number(value);
@@ -29,6 +30,13 @@ export function createDefaultSkctConfig() {
         breakMin: 1,
         breakSec: 0,
         repeatCount: 1,
+    };
+}
+
+export function createDefaultStartDelayConfig() {
+    return {
+        enabled: true,
+        sec: DEFAULT_START_DELAY_SECONDS,
     };
 }
 
@@ -71,6 +79,13 @@ export function normalizeSkctConfig(config) {
         breakMin: clampNumber(config?.breakMin, 0, 60, 1),
         breakSec: clampNumber(config?.breakSec, 0, 59, 0),
         repeatCount: clampNumber(config?.repeatCount, 1, 10, 1),
+    };
+}
+
+export function normalizeStartDelayConfig(config) {
+    return {
+        enabled: typeof config?.enabled === 'boolean' ? config.enabled : true,
+        sec: clampNumber(config?.sec, 0, 30, DEFAULT_START_DELAY_SECONDS),
     };
 }
 
@@ -127,6 +142,7 @@ export function loadPersistedState() {
     if (typeof window === 'undefined') {
         return {
             skctConfig: createDefaultSkctConfig(),
+            startDelayConfig: createDefaultStartDelayConfig(),
             customTabs: [],
             activeTabId: 'skct',
             soundPreset: DEFAULT_SOUND_PRESET,
@@ -138,6 +154,7 @@ export function loadPersistedState() {
         if (!stored) {
             return {
                 skctConfig: createDefaultSkctConfig(),
+                startDelayConfig: createDefaultStartDelayConfig(),
                 customTabs: [],
                 activeTabId: 'skct',
                 soundPreset: DEFAULT_SOUND_PRESET,
@@ -155,6 +172,7 @@ export function loadPersistedState() {
             skctConfig: isLegacyDefaultSkctConfig(normalizedSkctConfig)
                 ? createDefaultSkctConfig()
                 : normalizedSkctConfig,
+            startDelayConfig: normalizeStartDelayConfig(parsed?.startDelayConfig),
             customTabs,
             activeTabId: resolveActiveTabId(parsed?.activeTabId, customTabs),
             soundPreset: SOUND_OPTIONS.some((option) => option.id === parsed?.soundPreset)
@@ -164,6 +182,7 @@ export function loadPersistedState() {
     } catch {
         return {
             skctConfig: createDefaultSkctConfig(),
+            startDelayConfig: createDefaultStartDelayConfig(),
             customTabs: [],
             activeTabId: 'skct',
             soundPreset: DEFAULT_SOUND_PRESET,
@@ -171,7 +190,7 @@ export function loadPersistedState() {
     }
 }
 
-export function persistPresetState({ activeTabId, customTabs, skctConfig, soundPreset }) {
+export function persistPresetState({ activeTabId, customTabs, skctConfig, soundPreset, startDelayConfig }) {
     if (typeof window === 'undefined') return;
 
     window.localStorage.setItem(
@@ -181,6 +200,7 @@ export function persistPresetState({ activeTabId, customTabs, skctConfig, soundP
             customTabs,
             skctConfig,
             soundPreset,
+            startDelayConfig,
         }),
     );
 }

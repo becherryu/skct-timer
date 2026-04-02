@@ -22,6 +22,9 @@ export function useTimer() {
   ])
 
   const repeatCount = ref(1)
+  const startDelayEnabled = ref(true)
+  const startDelaySec = ref(10)
+  const countdownRemaining = ref(0)
   const seqIdx = ref(0)
   const currentRepeat = ref(1)
   const remaining = ref(0)
@@ -32,6 +35,7 @@ export function useTimer() {
   const soundPreset = ref(DEFAULT_SOUND_PRESET)
 
   let intervalId = null
+  let countdownId = null
 
   const sequence = computed(() => {
     if (mode.value === 'skct') {
@@ -68,6 +72,7 @@ export function useTimer() {
   })
 
   const currentPhase = computed(() => sequence.value[seqIdx.value] ?? null)
+  const isCountingDown = computed(() => countdownRemaining.value > 0)
   const isBreak = computed(() => currentPhase.value?.type === 'break')
   const isWarning = computed(() => !isBreak.value && remaining.value <= 60 && started.value)
   const progressPct = computed(() => total.value > 0 ? ((total.value - remaining.value) / total.value) * 100 : 0)
@@ -92,6 +97,21 @@ export function useTimer() {
     seqIdx.value = idx
     remaining.value = sequence.value[idx].duration
     total.value = remaining.value
+  }
+
+  function clearCountdown() {
+    clearInterval(countdownId)
+    countdownId = null
+    countdownRemaining.value = 0
+  }
+
+  function beginTimer() {
+    if (!started.value) {
+      started.value = true
+      goToPhase(0)
+    }
+    intervalId = setInterval(tick, 1000)
+    running.value = true
   }
 
   function tick() {
@@ -120,22 +140,43 @@ export function useTimer() {
   }
 
   function start() {
-    if (!started.value) {
-      started.value = true
-      goToPhase(0)
+    if (isCountingDown.value) {
+      clearCountdown()
+      return
     }
+
+    if (!started.value) {
+      if (startDelayEnabled.value && startDelaySec.value > 0) {
+        countdownRemaining.value = startDelaySec.value
+        countdownId = setInterval(() => {
+          if (countdownRemaining.value > 1) {
+            countdownRemaining.value--
+            return
+          }
+
+          clearCountdown()
+          playBell()
+          beginTimer()
+        }, 1000)
+        return
+      }
+
+      beginTimer()
+      return
+    }
+
     if (running.value) {
       clearInterval(intervalId)
       running.value = false
     } else {
-      intervalId = setInterval(tick, 1000)
-      running.value = true
+      beginTimer()
     }
   }
 
   function skip() { advance() }
 
   function reset() {
+    clearCountdown()
     clearInterval(intervalId)
     running.value = false
     started.value = false
@@ -158,6 +199,8 @@ export function useTimer() {
     }
     repeatCount.value = settings.repeatCount ?? 1
     soundPreset.value = settings.soundPreset ?? DEFAULT_SOUND_PRESET
+    startDelayEnabled.value = settings.startDelayEnabled ?? true
+    startDelaySec.value = settings.startDelaySec ?? 10
     setSoundPreset(soundPreset.value)
     reset()
   }
@@ -176,6 +219,7 @@ export function useTimer() {
   return {
     mode, skctMin, skctSec, skctBreakMin, skctBreakSec, customPhases, repeatCount, currentRepeat,
     soundPreset,
+    startDelayEnabled, startDelaySec, countdownRemaining, isCountingDown,
     studyTotal, currentStudyNum,
     sequence, running, started, finished,
     currentPhase, isBreak, isWarning, progressPct, timeStr, nextSubjectName,

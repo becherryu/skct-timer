@@ -22,15 +22,19 @@
                 <TimerBoard
                     :active-tab-id="activeTabId"
                     :active-tab-label="activeTabLabel"
+                    :countdown-remaining="countdownRemaining"
                     :current-phase="currentPhase"
                     :current-study-num="currentStudyNum"
                     :default-time-str="defaultTimeStr"
                     :is-break="isBreak"
+                    :is-counting-down="isCountingDown"
                     :is-warning="isWarning"
                     :next-subject-name="nextSubjectName"
                     :progress-pct="progressPct"
                     :running="running"
                     :sequence="sequence"
+                    :start-delay-enabled="startDelayConfig.enabled"
+                    :start-delay-seconds="startDelayConfig.sec"
                     :started="started"
                     :step-status="stepStatus"
                     :study-total="studyTotal"
@@ -44,11 +48,13 @@
                             :is-dark="isDark"
                             :is-fullscreen="isFullscreen"
                             :is-muted="isMuted"
+                            :is-start-delay-enabled="startDelayConfig.enabled"
                             :show-fullscreen="showFullscreenButton"
                             @open-config="openConfigModal"
                             @toggle-dark="toggleDark"
                             @toggle-fullscreen="toggleFullscreen"
                             @toggle-muted="toggleMuted"
+                            @toggle-start-delay="toggleStartDelay"
                         />
                     </template>
                 </TimerBoard>
@@ -63,6 +69,8 @@
             :selected-sound-preset="soundPreset"
             :show="showConfigModal"
             :sound-options="SOUND_OPTIONS"
+            :start-delay-enabled="startDelayConfig.enabled"
+            :start-delay-seconds="startDelayConfig.sec"
             @add-phase="addCustomPhase"
             @close="closeConfigModal"
             @remove-phase="removeCustomPhase"
@@ -70,6 +78,7 @@
             @update-field="handleEditorFieldUpdate"
             @update-phase="handleEditorPhaseUpdate"
             @update-sound="handleSoundPresetUpdate"
+            @update-start-delay="handleStartDelayUpdate"
         />
     </div>
 </template>
@@ -149,10 +158,20 @@ function handleSoundPresetUpdate(nextPreset) {
     previewSound('bell');
 }
 
+function handleStartDelayUpdate(payload) {
+    presets.updateStartDelayField(payload.field, payload.value);
+    applyTimerSettings(presets.buildActiveTimerSettings());
+}
+
 function toggleMuted() {
     isMuted.value = !isMuted.value;
     setMuted(isMuted.value);
     window.localStorage.setItem(MUTED_STORAGE_KEY, String(isMuted.value));
+}
+
+function toggleStartDelay() {
+    presets.updateStartDelayField('enabled', !startDelayConfig.value.enabled);
+    applyTimerSettings(presets.buildActiveTimerSettings());
 }
 
 function toggleDark() {
@@ -192,10 +211,12 @@ const showFullscreenButton = computed(() => !isCompactScreen.value || isFullscre
 
 const {
     currentPhase,
+    countdownRemaining,
     currentRepeat,
     currentStudyNum,
     finished,
     isBreak,
+    isCountingDown,
     isWarning,
     nextSubjectName,
     progressPct,
@@ -213,5 +234,14 @@ const {
     setMuted,
 } = timer;
 
-const { activeTabId, activeTabLabel, customTabs, editor, soundPreset, addCustomPhase, removeCustomPhase } = presets;
+const {
+    activeTabId,
+    activeTabLabel,
+    customTabs,
+    editor,
+    soundPreset,
+    startDelayConfig,
+    addCustomPhase,
+    removeCustomPhase,
+} = presets;
 </script>

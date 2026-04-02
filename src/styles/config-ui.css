@@ -166,6 +166,29 @@
     background: var(--bg);
 }
 
+.toggle-pill {
+    min-width: 72px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-em);
+    background: var(--surface2);
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--sans);
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        color 0.15s,
+        border-color 0.15s;
+}
+
+.toggle-pill.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+}
+
 .subjects-list {
     display: flex;
     flex-direction: column;

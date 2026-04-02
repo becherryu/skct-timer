@@ -6,6 +6,7 @@ import {
     loadPersistedState,
     normalizeCustomTab,
     normalizeSkctConfig,
+    normalizeStartDelayConfig,
     persistPresetState,
     resolveActiveTabId,
 } from './presetHelpers.js';
@@ -14,6 +15,7 @@ export function useTimerPresets() {
     const initialState = loadPersistedState();
 
     const skctConfig = ref(initialState.skctConfig);
+    const startDelayConfig = ref(initialState.startDelayConfig);
     const customTabs = ref(initialState.customTabs);
     const activeTabId = ref(resolveActiveTabId(initialState.activeTabId, customTabs.value));
     const soundPreset = ref(initialState.soundPreset);
@@ -30,6 +32,7 @@ export function useTimerPresets() {
             customTabs: customTabs.value,
             skctConfig: skctConfig.value,
             soundPreset: soundPreset.value,
+            startDelayConfig: startDelayConfig.value,
         });
     }
 
@@ -43,6 +46,8 @@ export function useTimerPresets() {
                 mode: 'skct',
                 ...normalizeSkctConfig(skctConfig.value),
                 soundPreset: soundPreset.value,
+                startDelayEnabled: startDelayConfig.value.enabled,
+                startDelaySec: startDelayConfig.value.sec,
             };
         }
 
@@ -54,6 +59,8 @@ export function useTimerPresets() {
             phases: currentTab.phases.map((phase) => ({ ...phase })),
             repeatCount: currentTab.repeatCount,
             soundPreset: soundPreset.value,
+            startDelayEnabled: startDelayConfig.value.enabled,
+            startDelaySec: startDelayConfig.value.sec,
         };
     }
 
@@ -138,11 +145,20 @@ export function useTimerPresets() {
         persistState();
     }
 
+    function updateStartDelayField(field, value) {
+        startDelayConfig.value = normalizeStartDelayConfig({
+            ...startDelayConfig.value,
+            [field]: value,
+        });
+        persistState();
+    }
+
     return {
         activeTabId,
         activeTabLabel,
         customTabs,
         editor,
+        startDelayConfig,
         soundPreset,
         addCustomPhase,
         buildActiveTimerSettings,
@@ -154,5 +170,6 @@ export function useTimerPresets() {
         updateEditorField,
         updateEditorPhase,
         updateSoundPreset,
+        updateStartDelayField,
     };
 }

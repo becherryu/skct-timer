@@ -59,6 +59,31 @@
                             <span class="unit">회</span>
                         </div>
                     </div>
+                    <div class="settings-divider" />
+                    <p class="settings-section">시작 전 카운트다운</p>
+                    <div class="setting-row">
+                        <label>사용 여부</label>
+                        <button
+                            class="toggle-pill"
+                            :class="{ active: startDelayEnabled }"
+                            @click="$emit('update-start-delay', { field: 'enabled', value: !startDelayEnabled })"
+                        >
+                            {{ startDelayEnabled ? '켜짐' : '꺼짐' }}
+                        </button>
+                    </div>
+                    <div class="setting-row">
+                        <label>카운트다운</label>
+                        <div class="input-group">
+                            <input
+                                type="number"
+                                :value="startDelaySeconds"
+                                min="0"
+                                max="30"
+                                @input="$emit('update-start-delay', { field: 'sec', value: Number($event.target.value) })"
+                            />
+                            <span class="unit">초</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="setting-card">
@@ -128,6 +153,31 @@
                 </div>
 
                 <div class="setting-card">
+                    <p class="settings-section">시작 전 카운트다운</p>
+                    <div class="setting-row">
+                        <label>사용 여부</label>
+                        <button
+                            class="toggle-pill"
+                            :class="{ active: startDelayEnabled }"
+                            @click="$emit('update-start-delay', { field: 'enabled', value: !startDelayEnabled })"
+                        >
+                            {{ startDelayEnabled ? '켜짐' : '꺼짐' }}
+                        </button>
+                    </div>
+                    <div class="setting-row">
+                        <label>카운트다운</label>
+                        <div class="input-group">
+                            <input
+                                type="number"
+                                :value="startDelaySeconds"
+                                min="0"
+                                max="30"
+                                @input="$emit('update-start-delay', { field: 'sec', value: Number($event.target.value) })"
+                            />
+                            <span class="unit">초</span>
+                        </div>
+                    </div>
+                    <div class="settings-divider" />
                     <div class="subjects-header">
                         <p class="settings-section" style="margin-bottom: 0">루틴 구성</p>
                         <div class="add-actions">
@@ -208,9 +258,17 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    startDelayEnabled: {
+        type: Boolean,
+        required: true,
+    },
+    startDelaySeconds: {
+        type: Number,
+        required: true,
+    },
 });
 
-const emit = defineEmits(['add-phase', 'remove-phase', 'update-field', 'update-phase', 'update-sound']);
+const emit = defineEmits(['add-phase', 'remove-phase', 'update-field', 'update-phase', 'update-sound', 'update-start-delay']);
 
 function updateNumber(field, event) {
     emit('update-field', { field, value: Number(event.target.value) });

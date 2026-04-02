@@ -43,6 +43,23 @@
                 </svg>
             </button>
             <button
+                class="btn-icon"
+                :class="{ active: isStartDelayEnabled }"
+                @click="$emit('toggle-start-delay')"
+                :title="isStartDelayEnabled ? '시작 전 카운트다운 끄기' : '시작 전 카운트다운 켜기'"
+            >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.2" />
+                    <path
+                        d="M8 4.6V8l2.1 1.6M5.2 1.9h5.6"
+                        stroke="currentColor"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </button>
+            <button
                 v-if="showFullscreen"
                 class="btn-icon"
                 @click="$emit('toggle-fullscreen')"
@@ -104,11 +121,15 @@ defineProps({
         type: Boolean,
         required: true,
     },
+    isStartDelayEnabled: {
+        type: Boolean,
+        required: true,
+    },
     showFullscreen: {
         type: Boolean,
         required: true,
     },
 });
 
-defineEmits(['open-config', 'toggle-dark', 'toggle-fullscreen', 'toggle-muted']);
+defineEmits(['open-config', 'toggle-dark', 'toggle-fullscreen', 'toggle-muted', 'toggle-start-delay']);
 </script>
